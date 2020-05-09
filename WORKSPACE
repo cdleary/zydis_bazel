@@ -11,11 +11,12 @@ new_git_repository(
 cc_library(
   name = "zydis",
   srcs = glob([
-    "src/*.c",
+    "src/**/*.c",
     "src/Generated/*.inc",
     "include/Zydis/Internal/*.h",
     "include/Zydis/Generated/*.h",
-    "dependencies/zycore/include/Zycore/*.h",
+    "dependencies/zycore/include/Zycore/**/*.h",
+    "dependencies/zycore/**/*.c",
   ]),
   hdrs = glob([
     "include/Zydis/*.h",
@@ -32,6 +33,22 @@ cc_library(
     "@//third_party/zydis:config_headers",
   ],
   visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "ZydisDisasm",
+    srcs = ["tools/ZydisDisasm.c"],
+    deps = [
+        ":zydis",
+    ],
+)
+
+cc_binary(
+    name = "ZydisInfo",
+    srcs = ["tools/ZydisInfo.c"],
+    deps = [
+        ":zydis",
+    ],
 )
 """
 )
